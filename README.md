@@ -70,6 +70,8 @@ The main objectives of this project are to:
 | Footprinting (PM1) | `networkwalks.com` | Program's own designated training target -- authorized by Networkwalks for student practice |
 |Network Scanning (PM5)| Own Local LAN subnet ( `10.0.0.0/24`),| Own virtual network -- full ownership/authorization|
 
+> ⚠️ Important: These techniques must only be used against systems you own or have explicit written permission to test.
+
 <hr>
 
 # Part 1- Footprinting: networkwalks.com
@@ -82,6 +84,16 @@ Command:
 ```
 whois networkwalks.com
 ```
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whois%20Screenshot%201.png)
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whois%20Screenshot%202.png)
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whois%20Screenshot%203.png)
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whois%20Screenshot%204.png)
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whois%20Screenshot%205.png)
 
 
 Findings:
@@ -99,8 +111,11 @@ How attackers use this: Name servers reveal the hosting provider instantly. Regi
 ## Task 2- WhatWeb: Technology Fingerprinting
 ---
 ### Command: 
-`whatweb networkwalks.com`
+```
+whatweb networkwalks.com
+```
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Whatweb.png)
 
 Findings:
 
@@ -115,8 +130,11 @@ How attackers use this: Exact WordPress core + plugin versions can be checked ag
 # Task 3 — Nslookup: IP Resolution
 ---
 ## Command:
-`nslookup networkwalks.com`
+```
+nslookup networkwalks.com
+```
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/nslookup.png)
 
 Findings: Resolved IP — `192.232.216.135` (queried via DNS server 8.8.8.8)
 
@@ -127,8 +145,11 @@ How attackers use this: Converts the domain to its real IP, enabling direct scan
 # Task 4 — Curl: HTTP Response Headers
 ---
 ## Command:
-`curl -I https://networkwalks.com`
+```
+curl -I https://networkwalks.com
+```
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Curl%20-I.png)
 
 Findings:
 
@@ -143,8 +164,11 @@ How attackers use this: HTTP headers leak the web server, caching stack, and hid
 # Task 5 — Wafw00f: WAF Detection
 ---
 ## Command:
-`wafw00f networkwalks.com` 
+```
+wafw00f networkwalks.com
+``` 
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Wafw00f.png)
 
 Findings: WAF detected — ModSecurity (SpiderLabs)
 
@@ -154,7 +178,11 @@ Findings: WAF detected — ModSecurity (SpiderLabs)
 
 #Task 6 — Dnsrecon: DNS Enumeration
 ##Command:
-`dnsrecon -d networkwalks.com`
+```
+dnsrecon -d networkwalks.com
+```
+
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Dnsrecon%20-d%20network%20walks%20.png)
 
 Findings:
 
@@ -172,8 +200,11 @@ How attackers use this: Maps the full DNS footprint — each record (mail server
 ##Task 7 — Ping Scan: Live Host Discovery
 ---
 Command:
-`nmap -sn 10.0.0.0/24`
+```
+nmap -sn 10.0.0.0/24
+```
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/ping%20Scan%20Screenshot.png)
 
 Findings:
 
@@ -186,8 +217,9 @@ How attackers use this: A ping sweep is the fastest way to map which devices are
 
 #Task 8 — Topology View
 
+![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Ping%20Scan%20Topology.png)
 
-Findings: Star topology — localhost at center, connected to 10.0.0.1 (gateway) and 10.0.0.2 (own Kali VM).
+Findings: Star topology — localhost at center, connected to 10.0.0.2 , 10.0.0.3, 10.0.0.4 and 10.0.0.5 (own Kali VMs).
 
 <hr>
 
@@ -199,7 +231,7 @@ Findings: Star topology — localhost at center, connected to 10.0.0.1 (gateway)
 | curl -I	| networkwalks.com	| HTTP/2 200, WordPress REST API exposed |
 | wafw00f	| networkwalks.com |	Protected by ModSecurity (SpiderLabs) WAF |
 | dnsrecon	| networkwalks.com | BIND 9.16.23, cPanel hosting, 8 SRV records |
-| Zenmap (Ping Scan)	| 10.0.0.0/24 (own LAN)	| 2 live hosts found |
+| Zenmap (Ping Scan)	| 10.0.0.0/24 (own LAN)	| 4 live hosts found |
 
 <hr>
 
@@ -212,14 +244,14 @@ Findings: Star topology — localhost at center, connected to 10.0.0.1 (gateway)
 
 **Solution**: 
 - The 3 cloned Kali Linux VMs were IP4 addresses were reconfigured to 10.0.0.3, 10.0.0.4 and 10.0.0.5 respectively.
-- Mappng was done using Zenmap on Kali Linux
+- Mapping was done using Zenmap on Kali Linux
 
 <hr>
 
 # 💡 What I Learned
 - Footprinting builds a complete profile of a target using only public information, before any active engagement — this is why it's hard to detect.
-- Each tool reveals a different layer: whois and DNS tools expose ownership/hosting, whatweb/curl expose the software stack, wafw00f exposes defenses.
-- A single misconfigured plugin/CMS version (seen via whatweb) can be the entry point an attacker looks for.
+- Each tool reveals a different layer: `whois` and DNS tools expose ownership/hosting, `whatweb`/`curl` expose the software stack, wafw00f exposes defenses.
+- A single misconfigured plugin/CMS version (seen via `whatweb`) can be the entry point an attacker looks for.
 - Network scanning with Zenmap is a fast way to discover live hosts on a subnet — a ping scan alone reveals which devices are worth investigating further.
 - Passive recon never touches the target directly, which is why it's the safest and stealthiest phase of a security assessment.
 
@@ -229,7 +261,7 @@ Findings: Star topology — localhost at center, connected to 10.0.0.1 (gateway)
 ---
 This project is intended strictly for educational purposes and authorized security testing as part of the Networkwalks Cybersecurity & Ethical Hacking internship.
 
-⚠️ Never use these techniques against unauthorized systems, networks, websites, or devices.
+>⚠️ Never use these techniques against unauthorized systems, networks, websites, or devices.
 
 <hr>
 
