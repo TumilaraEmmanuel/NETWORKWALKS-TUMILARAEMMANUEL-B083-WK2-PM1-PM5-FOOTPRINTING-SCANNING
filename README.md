@@ -37,7 +37,7 @@
 
 <hr>
 
-## 🎯 Project Overview
+# 🎯 Project Overview
 In this project, There are two phases:
 
 1. **Footprinting Networkwalks** using Six built-in Kali tools --- gathering domain, technology DNS, and firewall information from a safe distance.
@@ -63,8 +63,6 @@ The main objectives of this project are to:
 
 <hr>
 
-<hr>
-
 ## 🛡️ Scope & Authorization
 
 | Phase | Target | Authorization |
@@ -74,19 +72,20 @@ The main objectives of this project are to:
 
 <hr>
 
-<hr>
-
 # Part 1- Footprinting: networkwalks.com
 ---
-##Task 1- WHOIS: Domain Registeration
+## Task 1- WHOIS: Domain Registeration
 ---
-command:
-`whois networkwalks.com`
 
+Command:
+
+```
+whois networkwalks.com
+```
 
 
 Findings:
-- Registrar: Godaddy.com,LLC
+- Registrar: GoDaddy.com, LLC
 - Registered: Nov6, 2019
 - Expires : Nov 6, 2027
 - Name of Servers: NSS6135/NS6136.HOSTGATOR.COM, NS29/NS30.DOMAINCONTROL.COM (hosting → HostGator)
@@ -138,5 +137,126 @@ Findings:
 - Caching headers: `x-nginx-cache`, `x-endurance-cache-level` (Endurance/HostGator stack)
 - Sets `__wpdm_client` cookie (Secure, HttpOnly)
 How attackers use this: HTTP headers leak the web server, caching stack, and hidden endpoints (like the REST API) — a common WordPress recon/attack surface — without loading the full page.
+
+<hr>
+
+# Task 5 — Wafw00f: WAF Detection
+---
+## Command:
+`wafw00f networkwalks.com` 
+
+
+Findings: WAF detected — ModSecurity (SpiderLabs)
+
+**How attackers use this**: Confirms a firewall is watching; naive attack attempts will likely be blocked or logged, forcing an attacker to adapt or attempt a bypass.
+
+<hr>
+
+#Task 6 — Dnsrecon: DNS Enumeration
+##Command:
+`dnsrecon -d networkwalks.com`
+
+Findings:
+
+- Mail server: mail.networkwalks.com (192.232.216.135)
+- DNS software: BIND 9.16.23
+- SPF record: v=spf1 +a +mx +ip4:50.87.144.87 include:websitewelcome.com ~all
+- 8 SRV records — all _autodiscover._tcp pointing to cPanel email hosts (cpanelemaildiscovery.cpanel.net) → confirms cPanel hosting
+
+How attackers use this: Maps the full DNS footprint — each record (mail server, DNS software version, SPF policy, SRV records) is a potential foothold and reveals the email/hosting setup.
+
+<hr>
+
+# 🪜 Part 2 — Network Scanning: Local LAN (Zenmap)
+---
+##Task 7 — Ping Scan: Live Host Discovery
+---
+Command:
+`nmap -sn 10.0.0.0/24`
+
+
+Findings:
+
+- Subnet scanned: 10.0.0.0/24 (VirtualBox NAT Network)
+- Live hosts: 2 (10.0.0.1, 10.0.0.2)
+- MAC address: 52:54:00:12:35:00 (QEMU virtual NIC) — visible for the gateway host
+- Scan completed in 2.92 seconds (256 IP addresses checked)
+
+How attackers use this: A ping sweep is the fastest way to map which devices are alive on a network before deciding which hosts to probe further.
+
+#Task 8 — Topology View
+
+
+Findings: Star topology — localhost at center, connected to 10.0.0.1 (gateway) and 10.0.0.2 (own Kali VM).
+
+<hr>
+
+| Tool |	Target |	Key Finding |
+|---|---|---|
+| whois |	networkwalks.com | GoDaddy registrar, HostGator hosting, privacy-protected owner |
+| whatweb	| networkwalks.com	| WordPress 7.1 + WP Download Manager 3.3.58, Apache|
+| nslookup	| networkwalks.com	| IP: 192.232.216.135 |
+| curl -I	| networkwalks.com	| HTTP/2 200, WordPress REST API exposed |
+| wafw00f	| networkwalks.com |	Protected by ModSecurity (SpiderLabs) WAF |
+| dnsrecon	| networkwalks.com | BIND 9.16.23, cPanel hosting, 8 SRV records |
+| Zenmap (Ping Scan)	| 10.0.0.0/24 (own LAN)	| 2 live hosts found |
+
+<hr>
+
+# 🐞 Problems Encountered & Solutions
+## Problem 1. Cloned Virtual machines had same IP4 address and couldn't be pinged from Zenmap Nmap on window 
+---
+**Symptoms**: Zenmap Nmap found no live hosts locally on 10.0.0.0/24
+
+**Cause**: Original Kali Linux was clones into 3 different VMs.
+
+**Solution**: 
+- The 3 cloned Kali Linux VMs were IP4 addresses were reconfigured to 10.0.0.3, 10.0.0.4 and 10.0.0.5 respectively.
+- Mappng was done using Zenmap on Kali Linux
+
+<hr>
+
+# 💡 What I Learned
+- Footprinting builds a complete profile of a target using only public information, before any active engagement — this is why it's hard to detect.
+- Each tool reveals a different layer: whois and DNS tools expose ownership/hosting, whatweb/curl expose the software stack, wafw00f exposes defenses.
+- A single misconfigured plugin/CMS version (seen via whatweb) can be the entry point an attacker looks for.
+- Network scanning with Zenmap is a fast way to discover live hosts on a subnet — a ping scan alone reveals which devices are worth investigating further.
+- Passive recon never touches the target directly, which is why it's the safest and stealthiest phase of a security assessment.
+
+<hr>
+
+# 🔐 Security & Ethical Use
+---
+This project is intended strictly for educational purposes and authorized security testing as part of the Networkwalks Cybersecurity & Ethical Hacking internship.
+
+⚠️ Never use these techniques against unauthorized systems, networks, websites, or devices.
+
+<hr>
+
+## 👤 Author
+---
+Opakunbi Oluwatumilara Emmanuel 
+Cybersecurity Intern — Batch B083 Networkwalks
+
+LinkedIn: https://linkedin.com/in/opakunbi-oluwatumilara-79a394210
+
+<hr>
+
+# 📌 Project Information
+---
+| Field |	Details |
+|---|---|
+| Program Name	| Cybersecurity at Networkwalks|
+|Batch	| B083 |
+| Week	| 02 |
+| Project	| Footprinting (PM1) + Network Scanning (PM5) + Final Report |
+| Targets	| networkwalks.com (footprinting), own LAN 10.0.0.0/24 (scanning) |
+| Platform	 | Kali Linux |
+| Repository	| GitHub |
+
+<hr>
+
+# 🔐 Learn • Practice • Secure
+Cybersecurity Lab — Week 02
 
 <hr>
