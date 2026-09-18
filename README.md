@@ -120,7 +120,7 @@ whatweb networkwalks.com
 Findings:
 
 - CMS: WordPress 7.1, plugin WP Download Manager 3.3.58
-- Server: Apache, IP 192.232.216.135
+- Server: Apache, IP `192.232.216.135`
 - Stack: Bootstrap 7.1, jQuery 3.7.1, HTML5, Google Tag Manager
 
 How attackers use this: Exact WordPress core + plugin versions can be checked against CVE databases for known, exploitable vulnerabilities.
@@ -157,6 +157,7 @@ Findings:
 - WordPress REST API exposed at `/wp-json/`
 - Caching headers: `x-nginx-cache`, `x-endurance-cache-level` (Endurance/HostGator stack)
 - Sets `__wpdm_client` cookie (Secure, HttpOnly)
+
 How attackers use this: HTTP headers leak the web server, caching stack, and hidden endpoints (like the REST API) — a common WordPress recon/attack surface — without loading the full page.
 
 <hr>
@@ -176,8 +177,9 @@ Findings: WAF detected — ModSecurity (SpiderLabs)
 
 <hr>
 
-#Task 6 — Dnsrecon: DNS Enumeration
-##Command:
+# Task 6 — Dnsrecon: DNS Enumeration
+
+## Command:
 ```
 dnsrecon -d networkwalks.com
 ```
@@ -197,7 +199,7 @@ How attackers use this: Maps the full DNS footprint — each record (mail server
 
 # 🪜 Part 2 — Network Scanning: Local LAN (Zenmap)
 ---
-##Task 7 — Ping Scan: Live Host Discovery
+# Task 7 — Ping Scan: Live Host Discovery
 ---
 Command:
 ```
@@ -208,14 +210,14 @@ nmap -sn 10.0.0.0/24
 
 Findings:
 
-- Subnet scanned: 10.0.0.0/24 (VirtualBox NAT Network)
+- Subnet scanned: `10.0.0.0/24` (VirtualBox NAT Network)
 - Live hosts: 2 (10.0.0.1, 10.0.0.2)
-- MAC address: 52:54:00:12:35:00 (QEMU virtual NIC) — visible for the gateway host
+- MAC address: `52:54:00:12:35:00` (QEMU virtual NIC) — visible for the gateway host
 - Scan completed in 2.92 seconds (256 IP addresses checked)
 
 How attackers use this: A ping sweep is the fastest way to map which devices are alive on a network before deciding which hosts to probe further.
 
-#Task 8 — Topology View
+# Task 8 — Topology View
 
 ![image alt](https://github.com/TumilaraEmmanuel/NETWORKWALKS-TUMILARAEMMANUEL-B083-WK2-PM1-PM5-FOOTPRINTING-SCANNING/blob/57e5bfae7fd5e693f7cf3a19cdbff66d6c5abc68/Ping%20Scan%20Topology.png)
 
@@ -223,6 +225,7 @@ Findings: Star topology — localhost at center, connected to 10.0.0.2 , 10.0.0.
 
 <hr>
 
+# 🔎 Summary of Findings
 | Tool |	Target |	Key Finding |
 |---|---|---|
 | whois |	networkwalks.com | GoDaddy registrar, HostGator hosting, privacy-protected owner |
@@ -236,8 +239,9 @@ Findings: Star topology — localhost at center, connected to 10.0.0.2 , 10.0.0.
 <hr>
 
 # 🐞 Problems Encountered & Solutions
-## Problem 1. Cloned Virtual machines had same IP4 address and couldn't be pinged from Zenmap Nmap on window 
----
+
+### Problem 1. Cloned Virtual machines had same IP4 address and couldn't be pinged from Zenmap Nmap on window 
+
 **Symptoms**: Zenmap Nmap found no live hosts locally on 10.0.0.0/24
 
 **Cause**: Original Kali Linux was clones into 3 different VMs.
